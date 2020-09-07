@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 import com.bumptech.glide.Glide;
 import com.luobo.tree.repository.Photo;
 
@@ -20,11 +20,13 @@ class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.HitViewHold
 
     class HitViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView imageView;
+        private ImageView imageView, imageView2, imageView3;
 
         public HitViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
+
+
         }
 
     }
@@ -48,7 +50,11 @@ class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.HitViewHold
     public void onBindViewHolder(@NonNull HitViewHolder holder, int position) {
         Glide.with(context)
                 .load(photos.getHits().get(position).getLargeImageURL())
+                .placeholder(R.drawable.ic_baseline_photo_24)
+                .centerCrop()
+                .transition(withCrossFade())
                 .into(holder.imageView);
+
     }
 
     @Override
