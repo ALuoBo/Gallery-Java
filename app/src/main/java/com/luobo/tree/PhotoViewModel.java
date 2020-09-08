@@ -4,7 +4,6 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.luobo.tree.repository.Photo;
@@ -12,7 +11,7 @@ import com.luobo.tree.repository.PhotoRepository;
 
 public class PhotoViewModel extends AndroidViewModel {
     PhotoRepository repository;
-    private MutableLiveData<Photo> photos;
+    private MutableLiveData<Photo> photos =new MutableLiveData<>();
 
     public PhotoViewModel(@NonNull Application application) {
         super(application);
@@ -24,5 +23,7 @@ public class PhotoViewModel extends AndroidViewModel {
         return photos;
     }
 
-
+    public MutableLiveData<Photo> getPhotos() {
+        return photos;
+    }
 }

@@ -16,13 +16,13 @@ import com.luobo.tree.repository.Photo;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
-class PhotoListAdapter extends ListAdapter<Photo.HitsBean, PhotoListAdapter.HitViewHolder> {
+class PhotoDetailListAdapter extends ListAdapter<Photo.HitsBean, PhotoDetailListAdapter.HitViewHolder> {
 
     private Context context;
 
     private OnItemClickListener onItemClickListener;
 
-    protected PhotoListAdapter(Context context, @NonNull DiffUtil.ItemCallback<Photo.HitsBean> diffCallback) {
+    protected PhotoDetailListAdapter(Context context, @NonNull DiffUtil.ItemCallback<Photo.HitsBean> diffCallback) {
         super(diffCallback);
         this.context = context;
         mInflater = LayoutInflater.from(context);
@@ -32,14 +32,13 @@ class PhotoListAdapter extends ListAdapter<Photo.HitsBean, PhotoListAdapter.HitV
         this.onItemClickListener = listener;
     }
 
-
     class HitViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageView;
 
         public HitViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
+            imageView = itemView.findViewById(R.id.imageView_detail);
         }
 
     }
@@ -49,7 +48,7 @@ class PhotoListAdapter extends ListAdapter<Photo.HitsBean, PhotoListAdapter.HitV
     @NonNull
     @Override
     public HitViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.recyclerview_item, parent, false);
+        View itemView = mInflater.inflate(R.layout.recyclerview_detail_item, parent, false);
         return new HitViewHolder(itemView);
     }
 
@@ -57,7 +56,7 @@ class PhotoListAdapter extends ListAdapter<Photo.HitsBean, PhotoListAdapter.HitV
     @Override
     public void onBindViewHolder(@NonNull HitViewHolder holder, int position) {
         Glide.with(context)
-                .load(getItem(position).getPreviewURL())
+                .load(getItem(position).getLargeImageURL())
                 .centerCrop()
                 .transition(withCrossFade())
                 .into(holder.imageView);
@@ -72,7 +71,7 @@ class PhotoListAdapter extends ListAdapter<Photo.HitsBean, PhotoListAdapter.HitV
         }
     }
 
-   interface OnItemClickListener {
+    interface OnItemClickListener {
         void onItemListener(View view, int position);
     }
 }
