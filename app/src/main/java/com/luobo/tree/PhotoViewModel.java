@@ -12,6 +12,7 @@ import com.luobo.tree.repository.PhotoRepository;
 
 public class PhotoViewModel extends AndroidViewModel {
     PhotoRepository repository;
+    private MutableLiveData<Photo> photos;
 
     public PhotoViewModel(@NonNull Application application) {
         super(application);
@@ -19,7 +20,9 @@ public class PhotoViewModel extends AndroidViewModel {
     }
 
     public MutableLiveData<Photo> getPhotoLiveData(String keywords) {
-        return repository.getPhotoLiveData(keywords);
+        photos = repository.getPhotoLiveData(keywords);
+        return photos;
     }
+
 
 }

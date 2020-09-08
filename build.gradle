@@ -9,7 +9,7 @@ buildscript {
         glideVersion = '4.11.0'
         retrofitVersion = '2.9.0'
         GsonVersion='2.8.6'
-
+        nav_version = "2.3.0-alpha01"
 
     }
     repositories {

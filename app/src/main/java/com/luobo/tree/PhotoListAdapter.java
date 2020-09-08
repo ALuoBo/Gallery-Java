@@ -1,43 +1,50 @@
 package com.luobo.tree;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 import com.bumptech.glide.Glide;
 import com.luobo.tree.repository.Photo;
 
-class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.HitViewHolder> {
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
-    private Photo photos; // Cached copy of Photos
+class PhotoListAdapter extends ListAdapter<Photo.HitsBean, PhotoListAdapter.HitViewHolder> {
+
     private Context context;
+
+    private OnItemClickListener onItemClickListener;
+
+    protected PhotoListAdapter(Context context, @NonNull DiffUtil.ItemCallback<Photo.HitsBean> diffCallback) {
+        super(diffCallback);
+        this.context = context;
+        mInflater = LayoutInflater.from(context);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
 
     class HitViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView imageView, imageView2, imageView3;
+        private ImageView imageView;
 
         public HitViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
-
-
         }
 
     }
 
     private final LayoutInflater mInflater;
-
-    PhotoListAdapter(Context context) {
-        this.context = context;
-        mInflater = LayoutInflater.from(context);
-
-    }
 
     @NonNull
     @Override
@@ -46,28 +53,27 @@ class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.HitViewHold
         return new HitViewHolder(itemView);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull HitViewHolder holder, int position) {
         Glide.with(context)
-                .load(photos.getHits().get(position).getLargeImageURL())
+                .load(getItem(position).getPreviewURL())
                 .placeholder(R.drawable.ic_baseline_photo_24)
                 .centerCrop()
                 .transition(withCrossFade())
                 .into(holder.imageView);
-
+        if (onItemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = holder.getLayoutPosition();
+                    onItemClickListener.onItemListener(holder.itemView, position);
+                }
+            });
+        }
     }
 
-    @Override
-    public int getItemCount() {
-        if (photos != null)
-            return photos.getHits().size();
-        else return 0;
-    }
-
-    void setPhotos(Photo photos) {
-        this.photos = photos;
-        Log.d("MyTag", photos.getHits().toString());
-        notifyDataSetChanged();
-
+   interface OnItemClickListener {
+        void onItemListener(View view, int position);
     }
 }

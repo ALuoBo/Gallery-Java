@@ -2,7 +2,6 @@ package com.luobo.tree.repository;
 
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.HashMap;
@@ -26,16 +25,16 @@ class PhotoDataSource {
 
         HashMap<String, String> map = new HashMap<>();
         map.put("key", "18138703-f8467438c77adc35dabe81fca");
-        map.put("q", "flower");
+        map.put("q", keywords);
         map.put("image_type", "All");
-        map.put("per_page", "200");
+        map.put("per_page", "20");
 
         MutableLiveData<Photo> data = new MutableLiveData<>();
         service.listPhotos(map).enqueue(new Callback<Photo>() {
             @Override
             public void onResponse(Call<Photo> call, Response<Photo> response) {
                 data.setValue(response.body());
-                Log.e("MyTag", "onResponse: " + "success"+data.getValue());
+                Log.e("MyTag", "onResponse: " + "success" + data.getValue());
             }
 
             @Override

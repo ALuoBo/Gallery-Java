@@ -2,7 +2,7 @@ package com.luobo.tree.repository;
 
 import java.util.List;
 
-public  class Photo{
+public class Photo {
 
     /**
      * total : 28373
