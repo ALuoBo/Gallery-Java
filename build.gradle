@@ -10,6 +10,7 @@ buildscript {
         retrofitVersion = '2.9.0'
         GsonVersion='2.8.6'
         nav_version = "2.3.0"
+        materialVersion = "1.2.0"
 
     }
     repositories {

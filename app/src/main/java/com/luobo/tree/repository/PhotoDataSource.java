@@ -27,7 +27,7 @@ class PhotoDataSource {
         map.put("key", "18138703-f8467438c77adc35dabe81fca");
         map.put("q", keywords);
         map.put("image_type", "All");
-        map.put("per_page", "5");
+        map.put("per_page", "4");
 
         MutableLiveData<Photo> data = new MutableLiveData<>();
         service.listPhotos(map).enqueue(new Callback<Photo>() {

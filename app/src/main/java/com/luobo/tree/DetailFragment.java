@@ -26,7 +26,6 @@ public class DetailFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
         // Inflate the layout for this fragment
         return view;
     }

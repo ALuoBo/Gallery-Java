@@ -11,7 +11,8 @@ import com.luobo.tree.repository.PhotoRepository;
 
 public class PhotoViewModel extends AndroidViewModel {
     PhotoRepository repository;
-    private MutableLiveData<Photo> photos =new MutableLiveData<>();
+    private MutableLiveData<Photo> photos = new MutableLiveData<>();
+    private String keyword="";
 
     public PhotoViewModel(@NonNull Application application) {
         super(application);
@@ -19,9 +20,12 @@ public class PhotoViewModel extends AndroidViewModel {
     }
 
     public MutableLiveData<Photo> getPhotoLiveData(String keywords) {
-        photos = repository.getPhotoLiveData(keywords);
-        return photos;
-    }
+            if (!keyword.equals(keywords)) {
+                keyword = keywords;
+                photos = repository.getPhotoLiveData(keyword);
+            }
+            return photos;
+        }
 
     public MutableLiveData<Photo> getPhotos() {
         return photos;

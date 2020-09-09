@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.luobo.tree.repository.Photo;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
@@ -35,7 +36,7 @@ class PhotoListAdapter extends ListAdapter<Photo.HitsBean, PhotoListAdapter.HitV
 
     class HitViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView imageView;
+        private ShapeableImageView imageView;
 
         public HitViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,7 +58,7 @@ class PhotoListAdapter extends ListAdapter<Photo.HitsBean, PhotoListAdapter.HitV
     @Override
     public void onBindViewHolder(@NonNull HitViewHolder holder, int position) {
         Glide.with(context)
-                .load(getItem(position).getPreviewURL())
+                .load(getItem(position).getWebformatURL())
                 .centerCrop()
                 .transition(withCrossFade())
                 .into(holder.imageView);
@@ -72,7 +73,7 @@ class PhotoListAdapter extends ListAdapter<Photo.HitsBean, PhotoListAdapter.HitV
         }
     }
 
-   interface OnItemClickListener {
+    interface OnItemClickListener {
         void onItemListener(View view, int position);
     }
 }

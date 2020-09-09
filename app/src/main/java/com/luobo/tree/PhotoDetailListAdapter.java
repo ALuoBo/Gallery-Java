@@ -40,7 +40,6 @@ class PhotoDetailListAdapter extends ListAdapter<Photo.HitsBean, PhotoDetailList
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView_detail);
         }
-
     }
 
     private final LayoutInflater mInflater;
