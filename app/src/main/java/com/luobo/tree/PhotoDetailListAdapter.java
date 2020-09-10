@@ -12,7 +12,11 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.FutureTarget;
 import com.luobo.tree.repository.Photo;
+
+import java.io.File;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -58,7 +62,9 @@ class PhotoDetailListAdapter extends ListAdapter<Photo.HitsBean, PhotoDetailList
                 .load(getItem(position).getLargeImageURL())
                 .centerCrop()
                 .transition(withCrossFade())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.imageView);
+
         if (onItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

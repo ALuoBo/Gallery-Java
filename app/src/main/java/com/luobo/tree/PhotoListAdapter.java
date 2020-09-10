@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.luobo.tree.repository.Photo;
 
@@ -61,7 +61,9 @@ class PhotoListAdapter extends ListAdapter<Photo.HitsBean, PhotoListAdapter.HitV
                 .load(getItem(position).getWebformatURL())
                 .centerCrop()
                 .transition(withCrossFade())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.imageView);
+
         if (onItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

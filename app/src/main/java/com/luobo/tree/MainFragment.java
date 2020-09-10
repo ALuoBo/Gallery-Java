@@ -51,12 +51,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        adapter.setOnItemClickListener(new PhotoListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemListener(View view, int position) {
-                Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_detailFragment);
-            }
-        });
+        adapter.setOnItemClickListener((view1, position) -> Navigation.findNavController(view1).navigate(R.id.action_mainFragment_to_detailFragment));
         return view;
     }
 
