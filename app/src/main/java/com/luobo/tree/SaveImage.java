@@ -20,25 +20,28 @@ class SaveImage {
 
     public void saveImages(String fileName, Bitmap bitmap) {
         try {
+
             ContentResolver resolver = context.getApplicationContext().getContentResolver();
+
             Uri imageCollection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+
             ContentValues newImage = new ContentValues();
+            //可选项
+          /*//设置文件名
             newImage.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
+
+            //设置文件类型
+            newImage.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 //android Q中不再使用DATA字段，而用RELATIVE_PATH代替
                 //RELATIVE_PATH是相对路径不是绝对路径
                 //DCIM是系统文件夹，关于系统文件夹可以到系统自带的文件管理器中查看，不可以写没存在的名字
                 newImage.put(MediaStore.Images.Media.RELATIVE_PATH, "DCIM/");
-                //contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Music/signImage");
+
             } else {
                 newImage.put(MediaStore.Images.Media.DATA, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath());
-            }
+            }*/
 
-            //设置文件类型
-            newImage.put(MediaStore.Images.Media.MIME_TYPE, "image/JPEG");
-
-            //执行insert操作，向系统文件夹中添加文件
-            //EXTERNAL_CONTENT_URI代表外部存储器，该值不变
             Uri uri = resolver.insert(imageCollection, newImage);
 
             if (uri != null) {
@@ -56,4 +59,5 @@ class SaveImage {
 
         }
     }
+
 }

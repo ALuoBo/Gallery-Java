@@ -1,12 +1,15 @@
 package com.luobo.tree;
 
 import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -24,8 +27,10 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 
 public class DetailFragment extends Fragment {
+    private static int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
     @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
@@ -42,15 +47,12 @@ public class DetailFragment extends Fragment {
                     .asBitmap()
                     .load(adapter.getCurrentList().get(position).getLargeImageURL())
                     .submit();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Bitmap myBitmap = futureTarget.get();
-                        new SaveImage(requireContext()).saveImages("dd", myBitmap);
-                    } catch (ExecutionException | InterruptedException e) {
-                        e.printStackTrace();
-                    }
+            new Thread(() -> {
+                try {
+                    Bitmap myBitmap = futureTarget.get();
+                    new SaveImage(requireContext()).saveImages("dd", myBitmap);
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
                 }
             }).start();
 
@@ -65,7 +67,7 @@ public class DetailFragment extends Fragment {
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
             };
-            ActivityCompat.requestPermissions(requireActivity(), permissions, 1);
+            ActivityCompat.requestPermissions(requireActivity(), permissions, REQUEST_WRITE_EXTERNAL_STORAGE);
         }
 
     }
@@ -82,6 +84,18 @@ public class DetailFragment extends Fragment {
         // Hide the status bar.
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_WRITE_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+                Toast.makeText(getContext(), "未给予权限", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 }

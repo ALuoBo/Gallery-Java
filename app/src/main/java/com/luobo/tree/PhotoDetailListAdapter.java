@@ -13,18 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.FutureTarget;
 import com.luobo.tree.repository.Photo;
-
-import java.io.File;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
-class PhotoDetailListAdapter extends ListAdapter<Photo.HitsBean, PhotoDetailListAdapter.HitViewHolder> {
+class PhotoDetailListAdapter extends ListAdapter<Photo.HitsBean, PhotoDetailListAdapter.MyViewHolder> {
 
     private Context context;
 
     private OnItemClickListener onItemClickListener;
+
+    private static final int NORMAL_VIEW_TYPE = 0;
+
+    private static final int FOOTER_VIEW_TYPE = 1;
 
     protected PhotoDetailListAdapter(Context context, @NonNull DiffUtil.ItemCallback<Photo.HitsBean> diffCallback) {
         super(diffCallback);
@@ -36,13 +37,9 @@ class PhotoDetailListAdapter extends ListAdapter<Photo.HitsBean, PhotoDetailList
         this.onItemClickListener = listener;
     }
 
-    class HitViewHolder extends RecyclerView.ViewHolder {
-
-        private ImageView imageView;
-
-        public HitViewHolder(@NonNull View itemView) {
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView_detail);
         }
     }
 
@@ -50,30 +47,51 @@ class PhotoDetailListAdapter extends ListAdapter<Photo.HitsBean, PhotoDetailList
 
     @NonNull
     @Override
-    public HitViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.recyclerview_detail_item, parent, false);
-        return new HitViewHolder(itemView);
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView;
+        if (viewType == FOOTER_VIEW_TYPE) {
+            itemView = mInflater.inflate(R.layout.footer_layout, parent, false);
+
+        } else {
+
+            itemView = mInflater.inflate(R.layout.recyclerview_detail_item, parent, false);
+
+        }
+        return new MyViewHolder(itemView);
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull HitViewHolder holder, int position) {
-        Glide.with(context)
-                .load(getItem(position).getLargeImageURL())
-                .centerCrop()
-                .transition(withCrossFade())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.imageView);
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        if (getItemCount() - 1 != position) {
+            ImageView imageView = holder.itemView.findViewById(R.id.imageView_detail);
+            Glide.with(context)
+                    .load(getItem(position).getLargeImageURL())
+                    .centerCrop()
+                    .transition(withCrossFade())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(imageView);
 
-        if (onItemClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = holder.getLayoutPosition();
-                    onItemClickListener.onItemListener(holder.itemView, position);
-                }
-            });
+            if (onItemClickListener != null) {
+                holder.itemView.setOnClickListener(v -> {
+                    int position1 = holder.getLayoutPosition();
+                    onItemClickListener.onItemListener(holder.itemView, position1);
+                });
+            }
         }
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return super.getItemCount() + 1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == getItemCount() - 1) {
+            return FOOTER_VIEW_TYPE;
+        } else return NORMAL_VIEW_TYPE;
     }
 
     interface OnItemClickListener {

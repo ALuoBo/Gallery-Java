@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.luobo.tree.repository.Photo;
 
@@ -31,7 +31,7 @@ public class MainFragment extends Fragment {
 
         PhotoListAdapter adapter = new PhotoListAdapter(getContext(), new PhotoDiffUtil());
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, RecyclerView.VERTICAL));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -41,6 +41,7 @@ public class MainFragment extends Fragment {
                     public void onChanged(Photo photo) {
                         adapter.submitList(photo.getHits());
                     }
+
                 });
                 return false;
             }
