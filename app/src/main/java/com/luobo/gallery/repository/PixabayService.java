@@ -1,4 +1,4 @@
-package com.luobo.tree.repository;
+package com.luobo.gallery.repository;
 
 import java.util.Map;
 

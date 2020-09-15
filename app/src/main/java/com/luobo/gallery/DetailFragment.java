@@ -1,4 +1,4 @@
-package com.luobo.tree;
+package com.luobo.gallery;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -15,8 +15,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
@@ -34,13 +33,25 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerview_detail);
+
+        ViewPager2 viewPager = view.findViewById(R.id.viewPager);
         PhotoDetailListAdapter adapter = new PhotoDetailListAdapter(getContext(), new PhotoDiffUtil());
         PhotoViewModel viewModel = new ViewModelProvider(requireActivity()).get(PhotoViewModel.class);
         adapter.submitList(viewModel.getPhotos().getValue());
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        viewPager.setAdapter(adapter);
 
+        //Go to click item photo before
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            viewPager.setCurrentItem(MainFragmentArgs.fromBundle(getArguments()).getCurrentPhoto());
+        }
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+            }
+        });
         adapter.setOnItemClickListener((item, position) -> {
             requestPermission();
             FutureTarget<Bitmap> futureTarget = Glide.with(this)

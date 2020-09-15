@@ -1,4 +1,4 @@
-package com.luobo.tree;
+package com.luobo.gallery;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.luobo.tree.repository.Photo;
+import com.luobo.gallery.repository.Photo;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 

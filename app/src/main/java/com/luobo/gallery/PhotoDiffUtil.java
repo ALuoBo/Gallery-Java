@@ -1,9 +1,9 @@
-package com.luobo.tree;
+package com.luobo.gallery;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 
-import com.luobo.tree.repository.Photo;
+import com.luobo.gallery.repository.Photo;
 
 class PhotoDiffUtil extends DiffUtil.ItemCallback<Photo.HitsBean> {
 

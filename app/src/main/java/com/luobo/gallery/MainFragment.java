@@ -1,4 +1,4 @@
-package com.luobo.tree;
+package com.luobo.gallery;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -10,13 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.luobo.tree.repository.Photo;
+import com.luobo.gallery.repository.Photo;
 
 import java.util.List;
 
@@ -48,6 +47,7 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onChanged(List<Photo.HitsBean> hitsBeans) {
                         adapter.submitList(hitsBeans);
+                        recyclerView.scrollToPosition(0);
                         recyclerView.setVisibility(View.VISIBLE);
                     }
                 });
@@ -60,7 +60,11 @@ public class MainFragment extends Fragment {
             }
         });
 
-        adapter.setOnItemClickListener((view1, position) -> Navigation.findNavController(view1).navigate(R.id.action_mainFragment_to_detailFragment));
+
+        adapter.setOnItemClickListener((view1, position) -> {
+            Bundle bundle = new MainFragmentArgs.Builder().setCurrentPhoto(position).build().toBundle();
+            Navigation.findNavController(view1).navigate(R.id.action_mainFragment_to_detailFragment,bundle);
+        });
 
         if (adapter.getCurrentList().isEmpty()) {
             recyclerView.setVisibility(View.GONE);

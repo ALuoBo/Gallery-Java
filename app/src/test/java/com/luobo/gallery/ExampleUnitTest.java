@@ -1,4 +1,4 @@
-package com.luobo.tree;
+package com.luobo.gallery;
 
 import org.junit.Test;
 

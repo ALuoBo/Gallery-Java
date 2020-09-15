@@ -1,6 +1,5 @@
-package com.luobo.tree.repository;
+package com.luobo.gallery.repository;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;

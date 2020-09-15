@@ -1,4 +1,4 @@
-package com.luobo.tree;
+package com.luobo.gallery;
 
 import android.app.Application;
 
@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.luobo.tree.repository.Photo;
-import com.luobo.tree.repository.PhotoRepository;
+import com.luobo.gallery.repository.Photo;
+import com.luobo.gallery.repository.PhotoRepository;
 
 import java.util.List;
 

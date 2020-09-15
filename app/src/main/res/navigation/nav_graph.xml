@@ -4,25 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
-    <fragment
-        android:id="@+id/detailFragment"
-        android:name="com.luobo.tree.DetailFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" >
-        <argument
-            android:name="hitId"
-            app:argType="integer"
-            android:defaultValue="0" />
-    </fragment>
+
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.luobo.tree.MainFragment"
+        android:name="com.luobo.gallery.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_detailFragment"
             app:destination="@id/detailFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:exitAnim="@anim/nav_default_exit_anim" />.
+        <argument
+            android:name="currentPhoto"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.luobo.gallery.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail">
+
     </fragment>
 </navigation>

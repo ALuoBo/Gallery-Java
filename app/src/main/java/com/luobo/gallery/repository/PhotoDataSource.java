@@ -1,4 +1,4 @@
-package com.luobo.tree.repository;
+package com.luobo.gallery.repository;
 
 import android.util.Log;
 
@@ -30,7 +30,6 @@ class PhotoDataSource {
     HashMap<String, String> map = new HashMap<>();
 
 
-    //todo :will quick request again & again until all data pull down. It's a serious issue .
     public MutableLiveData<List<Photo.HitsBean>> getPhotosByNet(String keywords) {
 
         if (isLoading) return data;
@@ -44,7 +43,7 @@ class PhotoDataSource {
             @Override
             public void onResponse(Call<Photo> call, Response<Photo> response) {
 
-                if (data.getValue()==null) {
+                if (data.getValue() == null) {
                     data.setValue(response.body().getHits());
                 } else {
                     data.getValue().addAll(response.body().getHits());
@@ -53,6 +52,7 @@ class PhotoDataSource {
                 Log.e("MyTag", "onResponse: first request-----" + totalPage);
                 isLoading = false;
             }
+
             @Override
             public void onFailure(Call<Photo> call, Throwable t) {
                 Log.e("MyTag", "requestFailed", t);
