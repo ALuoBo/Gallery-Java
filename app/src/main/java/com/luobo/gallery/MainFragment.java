@@ -23,7 +23,7 @@ import java.util.List;
 public class MainFragment extends Fragment {
     private PhotoViewModel viewModel;
     private SearchView searchView;
-    private String keyWord = "cloud";
+    private String keyWord = "sea";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,20 +37,21 @@ public class MainFragment extends Fragment {
         PhotoListAdapter adapter = new PhotoListAdapter(getContext(), new PhotoDiffUtil());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, RecyclerView.VERTICAL));
-
+        viewModel.getPhotoLiveData(keyWord).observe(getViewLifecycleOwner(), new Observer<List<Photo.HitsBean>>() {
+            @Override
+            public void onChanged(List<Photo.HitsBean> hitsBeans) {
+                adapter.submitList(hitsBeans);
+                recyclerView.scrollToPosition(0);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 keyWord = query;
                 viewModel.cleanOldData();
-                viewModel.getPhotoLiveData(keyWord).observe(getViewLifecycleOwner(), new Observer<List<Photo.HitsBean>>() {
-                    @Override
-                    public void onChanged(List<Photo.HitsBean> hitsBeans) {
-                        adapter.submitList(hitsBeans);
-                        recyclerView.scrollToPosition(0);
-                        recyclerView.setVisibility(View.VISIBLE);
-                    }
-                });
+                viewModel.getPhotoLiveData(keyWord);
+                Log.e("myTAG", "onQueryTextSubmit: ");
                 return false;
             }
 
@@ -60,10 +61,9 @@ public class MainFragment extends Fragment {
             }
         });
 
-
         adapter.setOnItemClickListener((view1, position) -> {
             Bundle bundle = new MainFragmentArgs.Builder().setCurrentPhoto(position).build().toBundle();
-            Navigation.findNavController(view1).navigate(R.id.action_mainFragment_to_detailFragment,bundle);
+            Navigation.findNavController(view1).navigate(R.id.action_mainFragment_to_detailFragment, bundle);
         });
 
         if (adapter.getCurrentList().isEmpty()) {
