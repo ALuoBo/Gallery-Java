@@ -9,11 +9,11 @@ class PhotoDiffUtil extends DiffUtil.ItemCallback<Photo.HitsBean> {
 
     @Override
     public boolean areItemsTheSame(@NonNull Photo.HitsBean oldItem, @NonNull Photo.HitsBean newItem) {
-        return oldItem==newItem;
+        return oldItem.getId() == newItem.getId();
     }
 
     @Override
     public boolean areContentsTheSame(@NonNull Photo.HitsBean oldItem, @NonNull Photo.HitsBean newItem) {
-        return false;
+        return oldItem.getPageURL().equals(newItem.getPageURL());
     }
 }

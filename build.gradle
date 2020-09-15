@@ -8,10 +8,11 @@ buildscript {
         materialVersion = '1.0.0'
         glideVersion = '4.11.0'
         retrofitVersion = '2.9.0'
-        GsonVersion='2.8.6'
+        GsonVersion = '2.8.6'
         nav_version = "2.3.0"
         materialVersion = "1.2.1"
         lottieVersion = "3.4.2"
+        viewPager2 = "1.0.0"
     }
     repositories {
         google()

@@ -9,25 +9,28 @@ import androidx.lifecycle.MutableLiveData;
 import com.luobo.tree.repository.Photo;
 import com.luobo.tree.repository.PhotoRepository;
 
+import java.util.List;
+
 public class PhotoViewModel extends AndroidViewModel {
     PhotoRepository repository;
-    private MutableLiveData<Photo> photos = new MutableLiveData<>();
-    private String keyword="";
+    private MutableLiveData<List<Photo.HitsBean>> photos = new MutableLiveData<>();
 
     public PhotoViewModel(@NonNull Application application) {
         super(application);
         repository = new PhotoRepository();
     }
 
-    public MutableLiveData<Photo> getPhotoLiveData(String keywords) {
-            if (!keyword.equals(keywords)) {
-                keyword = keywords;
-                photos = repository.getPhotoLiveData(keyword);
-            }
-            return photos;
-        }
-
-    public MutableLiveData<Photo> getPhotos() {
+    public MutableLiveData<List<Photo.HitsBean>> getPhotoLiveData(String keywords) {
+        photos = repository.getPhotoLiveData(keywords);
         return photos;
     }
+
+    public MutableLiveData<List<Photo.HitsBean>> getPhotos() {
+        return photos;
+    }
+
+    public void cleanOldData() {
+        repository.cleanOldData();
+    }
+
 }

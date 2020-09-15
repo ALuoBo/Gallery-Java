@@ -59,4 +59,7 @@ dependencies {
 
     //lottie
     implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    //Viewpager2
+    implementation "androidx.viewpager2:viewpager2:$viewPager2"
 }

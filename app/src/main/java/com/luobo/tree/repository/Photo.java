@@ -1,9 +1,10 @@
 package com.luobo.tree.repository;
 
+import androidx.annotation.Nullable;
+
 import java.util.List;
 
 public class Photo {
-
     /**
      * total : 28417
      * totalHits : 500
@@ -66,26 +67,16 @@ public class Photo {
 
         private int id;
         private String pageURL;
-        private String type;
-        private String tags;
         private String previewURL;
         private int previewWidth;
         private int previewHeight;
         private String webformatURL;
-        private int webformatWidth;
-        private int webformatHeight;
         private String largeImageURL;
-        private int imageWidth;
-        private int imageHeight;
-        private int imageSize;
         private int views;
         private int downloads;
         private int favorites;
         private int likes;
         private int comments;
-        private int user_id;
-        private String user;
-        private String userImageURL;
 
         public int getId() {
             return id;
@@ -101,22 +92,6 @@ public class Photo {
 
         public void setPageURL(String pageURL) {
             this.pageURL = pageURL;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public String getTags() {
-            return tags;
-        }
-
-        public void setTags(String tags) {
-            this.tags = tags;
         }
 
         public String getPreviewURL() {
@@ -151,21 +126,6 @@ public class Photo {
             this.webformatURL = webformatURL;
         }
 
-        public int getWebformatWidth() {
-            return webformatWidth;
-        }
-
-        public void setWebformatWidth(int webformatWidth) {
-            this.webformatWidth = webformatWidth;
-        }
-
-        public int getWebformatHeight() {
-            return webformatHeight;
-        }
-
-        public void setWebformatHeight(int webformatHeight) {
-            this.webformatHeight = webformatHeight;
-        }
 
         public String getLargeImageURL() {
             return largeImageURL;
@@ -175,29 +135,6 @@ public class Photo {
             this.largeImageURL = largeImageURL;
         }
 
-        public int getImageWidth() {
-            return imageWidth;
-        }
-
-        public void setImageWidth(int imageWidth) {
-            this.imageWidth = imageWidth;
-        }
-
-        public int getImageHeight() {
-            return imageHeight;
-        }
-
-        public void setImageHeight(int imageHeight) {
-            this.imageHeight = imageHeight;
-        }
-
-        public int getImageSize() {
-            return imageSize;
-        }
-
-        public void setImageSize(int imageSize) {
-            this.imageSize = imageSize;
-        }
 
         public int getViews() {
             return views;
@@ -239,28 +176,5 @@ public class Photo {
             this.comments = comments;
         }
 
-        public int getUser_id() {
-            return user_id;
-        }
-
-        public void setUser_id(int user_id) {
-            this.user_id = user_id;
-        }
-
-        public String getUser() {
-            return user;
-        }
-
-        public void setUser(String user) {
-            this.user = user;
-        }
-
-        public String getUserImageURL() {
-            return userImageURL;
-        }
-
-        public void setUserImageURL(String userImageURL) {
-            this.userImageURL = userImageURL;
-        }
     }
 }

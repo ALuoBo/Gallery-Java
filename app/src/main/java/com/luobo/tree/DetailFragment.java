@@ -37,7 +37,7 @@ public class DetailFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview_detail);
         PhotoDetailListAdapter adapter = new PhotoDetailListAdapter(getContext(), new PhotoDiffUtil());
         PhotoViewModel viewModel = new ViewModelProvider(requireActivity()).get(PhotoViewModel.class);
-        adapter.submitList(viewModel.getPhotos().getValue().getHits());
+        adapter.submitList(viewModel.getPhotos().getValue());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

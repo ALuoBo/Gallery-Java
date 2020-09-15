@@ -1,13 +1,16 @@
 package com.luobo.tree;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,10 +18,13 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.luobo.tree.repository.Photo;
 
+import java.util.List;
+
 
 public class MainFragment extends Fragment {
     private PhotoViewModel viewModel;
     private SearchView searchView;
+    private String keyWord = "cloud";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,12 +42,14 @@ public class MainFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                viewModel.getPhotoLiveData(query).observe(getViewLifecycleOwner(), new Observer<Photo>() {
+                keyWord = query;
+                viewModel.cleanOldData();
+                viewModel.getPhotoLiveData(keyWord).observe(getViewLifecycleOwner(), new Observer<List<Photo.HitsBean>>() {
                     @Override
-                    public void onChanged(Photo photo) {
-                        adapter.submitList(photo.getHits());
+                    public void onChanged(List<Photo.HitsBean> hitsBeans) {
+                        adapter.submitList(hitsBeans);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
-
                 });
                 return false;
             }
@@ -53,8 +61,24 @@ public class MainFragment extends Fragment {
         });
 
         adapter.setOnItemClickListener((view1, position) -> Navigation.findNavController(view1).navigate(R.id.action_mainFragment_to_detailFragment));
+
+        if (adapter.getCurrentList().isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+        }
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                Log.e("myTag", "onScrolled: " + dy);
+                if (dy < 0) return;
+                int[] array = new int[3];
+                ((StaggeredGridLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPositions(array);
+                if (array[0] == adapter.getItemCount() - 1) {
+                    viewModel.getPhotoLiveData(keyWord);
+                    Log.e("myTag", "onScroll");
+                }
+            }
+        });
         return view;
     }
-
-
 }
